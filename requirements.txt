@@ -1,0 +1,13 @@
+# Dependencias del proyecto. Solo visión por computador clásica:
+# no se incluye ninguna librería de aprendizaje profundo.
+numpy>=1.24
+opencv-python>=4.8
+scipy>=1.10
+scikit-image>=0.21
+pandas>=2.0
+matplotlib>=3.7
+PyYAML>=6.0
+tqdm>=4.65
+
+# Desarrollo
+pytest>=7.4

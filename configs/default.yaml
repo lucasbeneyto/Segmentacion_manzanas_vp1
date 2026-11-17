@@ -1,0 +1,48 @@
+# Configuración por defecto del pipeline.
+# Los experimentos de configs/experiments/ heredan de esta y solo redefinen
+# lo que cambian.
+#
+# OJO: los componentes que aparecen aquí (`ejemplo_*`) son los de las
+# plantillas de ejemplo, lo único registrado de momento. Según el equipo vaya
+# implementando preprocesadores, segmentadores y métricas reales, se sustituyen
+# por sus nombres de registro. `python -m apple_seg.cli list-components` lista
+# en todo momento lo que hay disponible.
+
+dataset:
+  images_dir: data/raw/images
+  masks_dir: data/raw/masks
+  image_glob: "*.png"
+  mask_template: "{stem}.png"   # si las máscaras se llaman p.ej. img_01_mask.png -> "{stem}_mask.png"
+  limit: null                   # null = todas las imágenes
+  resize: null                  # [ancho, alto] para acelerar la experimentación
+
+split:
+  path: configs/split.json      # partición fija compartida por todo el equipo
+  dev_ratio: 0.3
+  seed: 42
+  evaluate_on: test             # dev | test | all
+
+# BLOQUE 1 -- cada entrada es una CADENA de preprocesado y se identifica por `id`.
+preprocessors:
+  - id: baseline                # cadena vacía = imagen original (baseline obligatorio)
+    steps: []
+
+# BLOQUE 2 -- cada entrada es un segmentador; `name` debe existir en el registro.
+segmenters:
+  - id: ejemplo
+    name: ejemplo_umbral_rojo
+    params:
+      umbral: 150
+    refine: []                  # refinado opcional de la máscara
+
+# BLOQUE 3 -- métricas a calcular sobre cada combinación.
+metrics:
+  - {name: ejemplo_coincidencia}
+
+output:
+  run_name: default
+  results_dir: results
+  save_masks: true
+  save_qualitative: true
+  n_qualitative: 6
+  main_metric: ejemplo_coincidencia

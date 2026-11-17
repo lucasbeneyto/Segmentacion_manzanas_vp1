@@ -1,0 +1,24 @@
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.env
+
+# Datos: no se versionan las imágenes del dataset
+data/raw/*
+!data/raw/images/.gitkeep
+!data/raw/masks/.gitkeep
+data/processed/*
+!data/processed/.gitkeep
+
+# Resultados generados: se regeneran con el pipeline
+results/runs/*
+!results/runs/.gitkeep
+results/figures/*
+!results/figures/.gitkeep
+results/tables/*
+!results/tables/.gitkeep
+
+.ipynb_checkpoints/
+.pytest_cache/
+.DS_Store

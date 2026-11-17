@@ -1,0 +1,42 @@
+# EJEMPLO de experimento. Plantilla a copiar; no es un experimento real del proyecto.
+#
+# Muestra el objetivo final del pipeline: seleccionar M preprocesadores,
+# N segmentadores y K métricas y obtener de una sola ejecución las M x N
+# combinaciones evaluadas con las K métricas, con sus tablas y figuras.
+# Aquí M=2, N=2, K=2 -> 4 combinaciones.
+#
+# Todos los componentes usados son las plantillas `ejemplo_*`: sustitúyelos por
+# los reales según se vayan implementando.
+
+extends: configs/default.yaml
+
+# M = 2 cadenas de preprocesado
+preprocessors:
+  - id: baseline                # obligatorio: sin preprocesar, para medir la mejora
+    steps: []
+
+  - id: ejemplo_dos_pasos       # una cadena con varios pasos encadenados
+    steps:
+      - {name: ejemplo_brillo, params: {delta: 20}}
+      - {name: ejemplo_brillo, params: {delta: -10}}
+
+# N = 2 segmentadores
+segmenters:
+  - id: umbral_fijo
+    name: ejemplo_umbral_rojo
+    params: {umbral: 150}
+    refine: []
+
+  - id: umbral_ajustado         # este requiere `fit`: se ajusta solo con el split dev
+    name: ejemplo_umbral_rojo_ajustable
+    params: {percentil: 10.0}
+    refine: []
+
+# K = 2 métricas
+metrics:
+  - {name: ejemplo_coincidencia}
+  - {name: ejemplo_error}          # métrica donde MENOR es mejor
+
+output:
+  run_name: ejemplo
+  n_qualitative: 4
